@@ -1,8 +1,10 @@
 <!--Html -->
 <template> 
-    <div class="navbar bg-slate-400">
+    <div class="fixed navbar bg-slate-700 z-50">
         <div class="flex-1">
-            <a class="btn btn-ghost normal-case text-xl">Gerenciamento de Recurso</a>
+            <RouterLink to="/">
+                <a class="btn btn-ghost normal-case text-xl">Gerenciamento de Recurso</a>
+            </RouterLink>
         </div>
         <div class="flex-none">
             <div class="dropdown dropdown-end">
@@ -14,11 +16,13 @@
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                     <li>
                         <a class="justify-between">
-                            "function name"
+                            Name
                         </a>
                     </li>
-                    <li><a>Settings</a></li>
-                    <li><a>Logout</a></li>
+        
+                    <RouterLink to="/logout">
+                        <li><a>Logout</a></li>
+                    </RouterLink>
                 </ul>
             </div>
         </div>
@@ -29,6 +33,7 @@
 <script>
 
 import { UserCircle2 } from 'lucide-vue-next';
+import { RouterLink, RouterView } from 'vue-router'
 
 export default {
   name: 'Header',
