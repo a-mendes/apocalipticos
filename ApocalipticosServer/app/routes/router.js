@@ -8,7 +8,8 @@ router.get('/info', (req, res) => res.status(200).send('Sistema de Gerenciamento
  * Rotas para Pessoas
  */
 router.get('/pessoas', apocalypseController.getAllPessoas);
-router.get('/pessoas/filtros/pessoas_registrounico', apocalypseController.getPessoasByRegistroUnico);
+router.get('/pessoas/filtros/', apocalypseController.getPessoasByFilter);
+
 
 
 

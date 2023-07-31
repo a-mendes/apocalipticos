@@ -17,9 +17,9 @@ const getAllPessoas = async (req, res) => {
     }
 };
 
-const getPessoasByRegistroUnico = async (req, res) => {
+const getPessoasByFilter = async (req, res) => {
     try { 
-        const pessoas = await apocalypseModel.getPessoasByRegistroUnico(req.body);
+        const pessoas = await apocalypseModel.getPessoasByFilter(req.body);
         res.status(200).json(pessoas);
     } catch(error) {
         res.status(500).send(error);
@@ -28,5 +28,5 @@ const getPessoasByRegistroUnico = async (req, res) => {
 
 module.exports = {
     getAllPessoas,
-    getPessoasByRegistroUnico,
+    getPessoasByFilter,
 };

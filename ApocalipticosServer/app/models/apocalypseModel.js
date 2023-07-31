@@ -20,10 +20,44 @@ const getPessoasPaged = async (body, page) => {
     return pessoas.rows;
 };
 
-const getPessoasByRegistroUnico = async (body) => {
+const getPessoasByFilter = async (body) => {
     const {registrounico} = body;
-    let query = `SELECT * FROM pessoas 
-                    WHERE pessoas.registrounico = ${registrounico};`;
+    const {nome} = body;
+    const {datanascimento} = body;
+    const {comunidade} = body;
+
+    let and = 0;
+    
+    let query = `SELECT * FROM pessoas `;
+
+    if(registrounico || nome || datanascimento || comunidade){
+        query += `WHERE `;
+    }
+
+    if(registrounico){
+        query += `pessoas.registrounico = ${registrounico} `;
+        and = 1;
+    }
+
+    if(nome){
+        query += (and) ? (`AND `) : (``);
+        query += `pessoas.nome = '${nome}' `;
+        and = 1;
+    }
+
+    if(datanascimento){
+        query += (and) ? (`AND `) : (``);
+        query += `pessoas.datanascimento = '${datanascimento}' `;
+        and = 1;
+    }
+
+    if(comunidade){
+        query += (and) ? (`AND `) : (``);
+        query += `pessoas.comunidade = '${comunidade}' `;
+    }
+
+    console.log(query);
+
     const pessoas = await connection.query(query);
     return pessoas.rows;
 };
@@ -33,5 +67,5 @@ const getPessoasByRegistroUnico = async (body) => {
 module.exports = {
     getAllPessoas,
     getPessoasPaged,
-    getPessoasByRegistroUnico,
+    getPessoasByFilter,
 };
