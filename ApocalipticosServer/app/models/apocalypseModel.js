@@ -4,34 +4,34 @@ const {connection} = require('./connection');
  * Exemplos de rotas supondo o atual modelo ER 
  */
 
-const getAllComunidade = async () => {
-    const comunidades = await connection.query('SELECT * FROM comunidade');
-    return comunidades.rows;
+const getAllPessoas = async () => {
+    const pessoas = await connection.query('SELECT * FROM pessoas');
+    return pessoas.rows;
 };
 
-const getComunidadesPaged = async (body, page) => {
+const getPessoasPaged = async (body, page) => {
     const {page_size} = body;
 
     pageStart = (page - 1) * page_size;
 
-    let query = `SELECT * FROM comunidade 
+    let query = `SELECT * FROM pessoas 
                     LIMIT ${page_size} OFFSET ${pageStart};`;
-    const comunidades = await connection.query(query);
-    return comunidades.rows;
+    const pessoas = await connection.query(query);
+    return pessoas.rows;
 };
 
-const getComunidadesByNome = async (body) => {
-    const {nome} = body;
-    let query = `SELECT * FROM comunidade 
-                    WHERE comunidade.nome = ${nome};`;
-    const comunidades = await connection.query(query);
-    return comunidades.rows;
+const getPessoasByRegistroUnico = async (body) => {
+    const {registrounico} = body;
+    let query = `SELECT * FROM pessoas 
+                    WHERE pessoas.registrounico = ${registrounico};`;
+    const pessoas = await connection.query(query);
+    return pessoas.rows;
 };
 
 
 
 module.exports = {
-    getAllComunidade,
-    getComunidadesPaged,
-    getComunidadesByNome,
+    getAllPessoas,
+    getPessoasPaged,
+    getPessoasByRegistroUnico,
 };
