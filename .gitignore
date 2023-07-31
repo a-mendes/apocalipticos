@@ -3,3 +3,6 @@ ApocalipticosServer/app/.env
 
 ApocalipticosServer/test/node_modules
 ApocalipticosServer/test/.env
+
+ApocalipticosClient/Client/node_modules
+
