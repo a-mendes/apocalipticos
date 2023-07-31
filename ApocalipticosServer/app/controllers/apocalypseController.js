@@ -1,32 +1,35 @@
 const apocalypseModel = require('../models/apocalypseModel');
 
+/**
+ * Pessoas
+ */
 
-const getAllComunidade = async (req, res) => {
+const getAllPessoas = async (req, res) => {
     try {
         let {page} = req.query;
         if(page) {
-            const comunidades = await apocalypseModel.getComunidadesPaged(req.body, page);
-            res.status(200).json(comunidades);
+            const pessoas = await apocalypseModel.getPessoasPaged(req.body, page);
+            res.status(200).json(pessoas);
             return;
         }
 
-        const comunidades = await apocalypseModel.getAllComunidade();
-        res.status(200).json(comunidades);
+        const pessoas = await apocalypseModel.getAllPessoas();
+        res.status(200).json(pessoas);
     } catch(error) {
         res.status(500).send(error);
     }
 };
 
-const getComunidadesByNome = async (req, res) => {
+const getPessoasByFilter = async (req, res) => {
     try { 
-        const comunidades = await apocalypseModel.getComunidadesByNome(req.body);
-        res.status(200).json(comunidades);
+        const pessoas = await apocalypseModel.getPessoasByFilter(req.body);
+        res.status(200).json(pessoas);
     } catch(error) {
         res.status(500).send(error);
     }
 };
 
 module.exports = {
-    getAllComunidade,
-    getComunidadesByNome,
+    getAllPessoas,
+    getPessoasByFilter,
 };

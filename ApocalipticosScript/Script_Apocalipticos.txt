@@ -1,0 +1,397 @@
+CREATE TABLE IF NOT EXISTS Comunidade (
+	Localizacao		VARCHAR(20)	NOT NULL,
+	Nome			VARCHAR(30)	NOT NULL,
+	Simbolo			VARCHAR(30)	NOT NULL,
+	RegLider		NUMERIC(10)	NOT NULL,
+	CONSTRAINT 		PK_Com		PRIMARY KEY(Localizacao),
+	CONSTRAINT 		UK_Simb		UNIQUE(Simbolo)
+);
+
+CREATE TABLE IF NOT EXISTS Pessoas (
+	RegistroUnico	NUMERIC(10)	NOT NULL,
+	Nome			VARCHAR(30)	NOT NULL,
+	DataNascimento	DATE		NOT NULL,
+	Comunidade		VARCHAR(20)	NOT NULL,
+	CONSTRAINT 		PK_RegUnicP	PRIMARY KEY(RegistroUnico)
+);
+
+CREATE TABLE IF NOT EXISTS Civil (
+	RegistroUnico	NUMERIC(10)	NOT NULL,
+	Profissao		VARCHAR(15)	NULL,
+	CONSTRAINT 		PK_RegUnicC	PRIMARY KEY(RegistroUnico)
+);
+
+CREATE TABLE IF NOT EXISTS Guardioes (
+	RegistroUnico	NUMERIC(10)	NOT NULL,
+	RAAF			NUMERIC(10)	NOT NULL,
+	CONSTRAINT 		PK_RegUnicG	PRIMARY KEY(RegistroUnico),
+	CONSTRAINT 		UK_RAAF		UNIQUE(RAAF)
+);
+
+CREATE TABLE IF NOT EXISTS Veiculos (
+	Placa							CHAR(7)			NOT NULL,
+	Modelo							VARCHAR(30)		NOT NULL,
+	CapacidadeCombustivel			NUMERIC(4,2)	NOT NULL,
+	NumAssentos						INT				NOT NULL,
+	Comunidade						VARCHAR(20)		NOT NULL,						
+	CONSTRAINT 		PK_PlacC			PRIMARY KEY(Placa)
+);
+
+CREATE TABLE IF NOT EXISTS VeiculosCarga (
+	Placa				CHAR(7)			NOT NULL,
+	CapacidadeCarga		NUMERIC(8,2)	NOT NULL,						
+	CONSTRAINT 		PK_Plac			PRIMARY KEY(Placa)
+);
+
+CREATE TABLE IF NOT EXISTS Construcoes (
+	Localizacao			VARCHAR(20)		NOT NULL,
+	DispAgua			NUMERIC(8,2)	NOT NULL,
+	MaterialConstrucao	VARCHAR(30)		NOT NULL,
+	Comunidade			VARCHAR(20)		NOT NULL,
+	CONSTRAINT 		PK_LocC	PRIMARY KEY(Localizacao)
+);
+
+CREATE TABLE IF NOT EXISTS Abrigo (
+	Localizacao			VARCHAR(20)		NOT NULL,
+	CapPessoas			INT				NOT NULL,
+	CONSTRAINT 		PK_LocAbr	PRIMARY KEY(Localizacao)
+);
+
+CREATE TABLE IF NOT EXISTS Fazenda (
+	Localizacao			VARCHAR(20)		NOT NULL,
+	TerraOcupada		NUMERIC(10,2)	NOT NULL,
+	TerraDisponivel		NUMERIC(10,2)	NOT NULL,
+	CONSTRAINT 		PK_LocF	PRIMARY KEY(Localizacao)
+);
+
+CREATE TABLE IF NOT EXISTS TipoPlantacao (
+	Localizacao			VARCHAR(20)		NOT NULL,
+	Plantacao			VARCHAR(20)		NOT NULL,
+	CONSTRAINT 		PK_LocP	PRIMARY KEY(Localizacao, Plantacao)
+);
+
+CREATE TABLE IF NOT EXISTS Criadouro (
+	Localizacao			VARCHAR(20)		NOT NULL,
+	QuantAnimais		INT				NOT NULL,
+	CapAnimais			INT				NOT NULL,
+	CONSTRAINT 		PK_LocCr	PRIMARY KEY(Localizacao)
+);
+
+CREATE TABLE IF NOT EXISTS TipoAnimais (
+	Localizacao			VARCHAR(20)		NOT NULL,
+	Animal				VARCHAR(20)		NOT NULL,
+	CONSTRAINT 		PK_LocAn	PRIMARY KEY(Localizacao, Animal)
+);
+
+CREATE TABLE IF NOT EXISTS Armazem (
+	Localizacao			VARCHAR(20)		NULL,
+	CapArmazenamento	NUMERIC(10,2)	NOT NULL,
+	CONSTRAINT 		PK_LocArm	PRIMARY KEY(Localizacao)
+);
+
+CREATE TABLE IF NOT EXISTS Roupas (
+	Lote				INT			NOT NULL,
+	Quantidade			INT			NOT NULL,
+	Tamanho				CHAR(1)		NOT NULL,
+	Genero				CHAR(1)		NOT NULL,
+	Material			VARCHAR(15)	NOT NULL,
+	CodRoupa			INT			NOT NULL,
+	Armazem				VARCHAR(20)	NULL,
+	CONSTRAINT PK_Lote	PRIMARY KEY(Lote),
+	CONSTRAINT ck_Tam CHECK (Tamanho='P' or Tamanho='M' or Tamanho='G'),
+	CONSTRAINT ck_Gen CHECK (Genero='M' or Genero='F')
+);
+
+CREATE TABLE IF NOT EXISTS TipoRoupa (
+	Codigo				INT			NOT NULL,
+	Nome				VARCHAR(10)	NOT NULL,
+	CONSTRAINT PK_Cod	PRIMARY KEY(Codigo)
+);
+
+CREATE TABLE IF NOT EXISTS Consumiveis	 (
+	Localizacao			VARCHAR(20)	NOT NULL,
+	Nome				VARCHAR(30)	NOT NULL,
+	DataAquisicao		DATE		NOT NULL,
+	Validade			DATE		NOT NULL,
+	Quantidade			INT			NOT NULL,
+	CONSTRAINT PK_LndC	PRIMARY KEY(Localizacao,Nome,DataAquisicao)
+);
+
+CREATE TABLE IF NOT EXISTS Remedio	 (
+	Localizacao			VARCHAR(20)	NOT NULL,
+	Nome				VARCHAR(30)	NOT NULL,
+	DataAquisicao		DATE		NOT NULL,
+	Enfermidade			VARCHAR(30)	NOT NULL,
+	CONSTRAINT PK_LndR	PRIMARY KEY(Localizacao,Nome,DataAquisicao)
+);
+
+CREATE TABLE IF NOT EXISTS Ferramentas (
+	Registro			INT			NOT NULL,
+	Nome				VARCHAR(30)	NOT NULL,
+	Quantidade			INT			NOT NULL,
+	Armazem				VARCHAR(20)	NULL,
+	CONSTRAINT PK_RegF	PRIMARY KEY(Registro)
+);
+
+CREATE TABLE IF NOT EXISTS FerramentasCombate (
+	Registro			INT			NOT NULL,
+	Modelo				VARCHAR(30)	NOT NULL,
+	Tipo				VARCHAR(30)	NOT NULL,
+	CONSTRAINT PK_RegC	PRIMARY KEY(Registro)
+);
+
+CREATE TABLE IF NOT EXISTS FerramentasUsoGeral (
+	Registro			INT			NOT NULL,
+	Finalidade			VARCHAR(30)	NOT NULL,
+	CONSTRAINT PK_RegU	PRIMARY KEY(Registro)
+);
+
+INSERT INTO Comunidade
+VALUES	('-20.3856,-43.5035', 'Ourolândia', 'Triângulo Vermelho', 252627);
+
+INSERT INTO Pessoas (RegistroUnico, Nome, DataNascimento, Comunidade)
+VALUES
+    (252627, 'Hêlizabetti Thadew', '06/07/76', '-20.3856,-43.5035'),
+    (123456, 'João da Silva', '15/12/85', '-20.3856,-43.5035'),
+    (789012, 'Maria Souza', '22/04/90', '-20.3856,-43.5035'),
+    (987654, 'Pedro Santos', '30/09/82', '-20.3856,-43.5035'),
+    (555666, 'Ana Mendes', '01/06/78', '-20.3856,-43.5035'),
+    (444333, 'Carlos Pereira', '12/11/95', '-20.3856,-43.5035'),
+    (777888, 'Fernanda Alves', '25/03/87', '-20.3856,-43.5035'),
+    (666999, 'Lucas Oliveira', '18/08/89', '-20.3856,-43.5035'),
+    (111222, 'Mariana Costa', '10/02/80', '-20.3856,-43.5035'),
+    (333444, 'Paulo Rodrigues', '28/05/92', '-20.3856,-43.5035'),
+    (101010, 'Isabela Ferreira', '03/09/84', '-20.3856,-43.5035'),
+    (131313, 'Rafaela Carvalho', '07/12/93', '-20.3856,-43.5035'),
+    (141414, 'Thiago Martins', '20/01/77', '-20.3856,-43.5035'),
+    (151515, 'Gabriel Rocha', '09/10/91', '-20.3856,-43.5035'),
+    (161616, 'Laura Santos', '14/08/83', '-20.3856,-43.5035'),
+    (450744, 'Xarlotchê Kappo', '20/01/2021' , '-20.3856,-43.5035'),
+    (475299, 'Thôbyas Bhrandaum', '05/12/2000' , '-20.3856,-43.5035');
+
+INSERT INTO Guardioes (RegistroUnico, RAAF)
+VALUES (475299, 00001),    
+       (789012, 00002),    
+       (555666, 00003),    
+       (777888, 00004),   
+       (111222, 00005),    
+       (101010, 00006),    
+       (141414, 00007),    
+       (161616, 00008);    
+
+INSERT INTO Civil (RegistroUnico, Profissao)
+VALUES (123456, 'Professor'),     
+       (987654, 'Médico'),        
+       (444333, 'Engenheiro'),    
+       (666999, 'Advogado'),      
+       (333444, 'Arquiteto'),     
+       (131313, 'Politico'),
+       (252627, 'Líder'),
+       (450744, NULL);
+       
+INSERT INTO Veiculos (Placa, Modelo, CapacidadeCombustivel, NumAssentos, Comunidade)
+VALUES
+    ('EJQ4311', 'Caminhão-Mercedes', 70.00, 3, '-20.3856,-43.5035'),
+    ('ABC1234', 'Carro-Sedan', 50.00, 5, '-20.3856,-43.5035'),
+    ('XYZ5678', 'Moto-Honda', 10.00, 2, '-20.3856,-43.5035'),
+    ('DEF9876', 'Caminhão-Volvo', 80.00, 2, '-20.3856,-43.5035'),
+    ('MNO4567', 'Van-Ford', 60.00, 9, '-20.3856,-43.5035'),
+    ('GHI6543', 'Caminhão-Scania', 90.00, 3, '-20.3856,-43.5035'),
+    ('JKL7890', 'Carro-Hyundai', 45.00, 5, '-20.3856,-43.5035'),
+    ('PRS1357', 'Moto-Yamaha', 12.00, 2, '-20.3856,-43.5035'),
+    ('BET2468', 'Van-Mercedes', 70.00, 9, '-20.3856,-43.5035'),
+    ('KLM9753', 'Carro-Toyota', 55.00, 5, '-20.3856,-43.5035'),
+    ('QWE8023', 'Moto-Suzuki', 15.00, 2, '-20.3856,-43.5035'),
+    ('TYU6809', 'Caminhão-Iveco', 75.00, 3, '-20.3856,-43.5035'),
+    ('FGH4756', 'Carro-Volkswagen', 50.00, 5, '-20.3856,-43.5035'),
+    ('JUI2468', 'Moto-Kawasaki', 10.00, 2, '-20.3856,-43.5035'),
+    ('OKM1098', 'Caminhão-DAF', 85.00, 3, '-20.3856,-43.5035');
+    
+INSERT INTO VeiculosCarga (Placa, CapacidadeCarga)
+VALUES
+    ('EJQ4311', 700.00), 
+    ('DEF9876', 800.00),  
+    ('TYU6809', 750.00), 
+    ('GHI6543', 500.00), 
+    ('OKM1098', 450.00);
+
+INSERT INTO Construcoes (Localizacao, DispAgua, MaterialConstrucao, Comunidade)
+VALUES ('Rua A, 45', 8, 'Madeira', '-20.3856,-43.5035'),
+       ('Rua B, 32', 6.5, 'Pedra', '-20.3856,-43.5035'),
+       ('Avenida C, 78', 7.2, 'Metal', '-20.3856,-43.5035'),
+       ('Travessa D, 15', 9.8, 'Madeira', '-20.3856,-43.5035'),
+       ('Rua E, 67', 5.3, 'Tijolo', '-20.3856,-43.5035'),
+       ('Praça F, 90', 6.9, 'Concreto', '-20.3856,-43.5035'),
+       ('Alameda G, 23', 8.1, 'Metal', '-20.3856,-43.5035'),
+       ('Avenida H, 10', 7.5, 'Madeira', '-20.3856,-43.5035'),
+       ('Travessa I, 54', 6.2, 'Tijolo', '-20.3856,-43.5035'),
+       ('Rua J, 76', 8.7, 'Concreto', '-20.3856,-43.5035');
+
+INSERT INTO Abrigo (Localizacao, CapPessoas)
+VALUES ('Rua A, 45', 100),
+       ('Rua B, 32', 200);
+       
+INSERT INTO Fazenda (Localizacao, TerraOcupada, TerraDisponivel)
+VALUES ('Avenida C, 78', 7.2, 20.5),
+       ('Travessa D, 15', 9.8, 15.2);
+    
+INSERT INTO Armazem (Localizacao, CapArmazenamento)
+VALUES ('Rua E, 67', 5.3),
+       ('Praça F, 90', 6.9),
+       ('Rua J, 76', 8.7);
+       
+INSERT INTO Criadouro (Localizacao, QuantAnimais, CapAnimais)
+VALUES ('Travessa I, 54', 15, 120);
+    
+INSERT INTO Consumiveis (Localizacao, Nome, DataAquisicao, Validade, Quantidade)
+VALUES
+    ('Rua E, 67', 'Paracetamol', '20/02/2023', '15/03/2023', 20),
+    ('Rua E, 67', 'Maçã', '10/03/2023', '25/03/2023', 30),
+    ('Rua E, 67', 'Ibuprofeno', '18/02/2023', '18/02/2024', 100),
+    ('Rua E, 67', 'Feijão', '05/03/2023', '05/03/2024', 50),
+    ('Rua E, 67', 'Carne', '28/02/2023', '05/03/2023', 10),
+    ('Praça F, 90', 'Ranitidina', '01/03/2023', '10/03/2023', 25),
+    ('Praça F, 90', 'Ovos', '02/03/2023', '15/03/2023', 36),
+    ('Praça F, 90', 'Queijo', '22/02/2023', '22/03/2023', 15),
+    ('Rua J, 76', 'Presunto', '12/03/2023', '25/03/2023', 18),
+    ('Rua J, 76', 'Dipirona', '08/03/2023', '15/03/2023', 40),
+    ('Rua J, 76', 'Allegra', '25/02/2023', '15/03/2023', 20),
+    ('Rua J, 76', 'Açúcar', '04/03/2023', '04/03/2024', 80),
+    ('Rua E, 67', 'Tomate', '15/03/2023', '20/03/2023', 12),
+    ('Praça F, 90', 'Cenoura', '28/02/2023', '10/03/2023', 30),
+    ('Rua J, 76', 'Batata', '22/02/2023', '22/03/2023', 25);
+
+
+INSERT INTO Remedio (Localizacao, Nome, DataAquisicao, Enfermidade)
+VALUES
+    ('Rua E, 67', 'Paracetamol', '20/02/2023', 'Dores no corpo'),
+    ('Rua E, 67', 'Ibuprofeno', '18/02/2023', 'Inflamações'),
+    ('Praça F, 90', 'Ranitidina', '01/03/2023', 'Úceras gástricas'),
+    ('Rua J, 76', 'Dipirona', '08/03/2023', 'Febre'),
+    ('Rua J, 76', 'Allegra', '25/02/2023', 'Alergias');
+    
+INSERT INTO TipoRoupa (Codigo, Nome)
+VALUES
+	(1, 'Camisa'),
+    (2, 'Blusa'),
+    (3, 'Calça'),
+    (4, 'Vestido'),
+    (5, 'Bermuda'),
+    (6, 'Jaqueta'),
+    (7, 'Saia'),
+    (8, 'Regata'),
+    (9, 'Blazer'),
+    (10, 'Shorts');
+    
+INSERT INTO Roupas (Lote, Quantidade, Tamanho, Genero, Material, CodRoupa, Armazem)
+VALUES
+    (1, 10, 'P', 'M', 'Algodão', 1, 'Rua E, 67'),
+    (2, 15, 'M', 'F', 'Jeans', 3, 'Rua E, 67'),
+    (3, 8, 'G', 'F', 'Linho', 2, 'Rua E, 67'),
+    (4, 12, 'M', 'M', 'Seda', 4, 'Rua E, 67'),
+    (5, 5, 'P', 'F', 'Poliéster', 5, 'Rua E, 67'),
+    (6, 18, 'G', 'M', 'Algodão', 10, 'Rua E, 67'),
+    (7, 7, 'M', 'F', 'Jeans', 8, 'Rua E, 67'),
+    (8, 13, 'G', 'F', 'Linho', 6, 'Rua E, 67'),
+    (9, 9, 'P', 'M', 'Seda', 7, 'Rua E, 67'),
+    (10, 4, 'M', 'F', 'Poliéster', 5, 'Rua E, 67'),
+    (11, 11, 'G', 'M', 'Algodão', 1, 'Praça F, 90'),
+    (12, 6, 'M', 'F', 'Jeans', 3, 'Praça F, 90'),
+    (13, 14, 'G', 'F', 'Linho', 2, 'Praça F, 90'),
+    (14, 7, 'P', 'M', 'Seda', 4, 'Praça F, 90'),
+    (15, 9, 'M', 'F', 'Poliéster', 9, 'Praça F, 90'),
+    (16, 16, 'G', 'M', 'Algodão', 1, 'Praça F, 90'),
+    (17, 5, 'M', 'F', 'Jeans', 3, 'Praça F, 90'),
+    (18, 11, 'G', 'F', 'Linho', 2, 'Praça F, 90'),
+    (19, 8, 'P', 'M', 'Seda', 4, 'Praça F, 90'),
+    (20, 6, 'M', 'F', 'Poliéster', 5, 'Rua J, 76'),
+    (21, 10, 'G', 'M', 'Algodão', 1, 'Rua J, 76'),
+    (22, 9, 'M', 'F', 'Jeans', 8, 'Rua J, 76'),
+    (23, 15, 'G', 'F', 'Linho', 2, 'Rua J, 76'),
+    (24, 6, 'P', 'M', 'Seda', 4, 'Rua J, 76'),
+    (25, 3, 'M', 'F', 'Poliéster', 6, 'Rua J, 76'),
+    (26, 8, 'G', 'M', 'Algodão', 1, 'Rua J, 76'),
+    (27, 12, 'M', 'F', 'Jeans', 3, 'Rua J, 76'),
+    (28, 9, 'G', 'F', 'Linho', 7, 'Rua J, 76'),
+    (29, 7, 'P', 'M', 'Seda', 4, 'Rua J, 76'),
+    (30, 4, 'M', 'F', 'Poliéster', 5, 'Rua J, 76');
+    
+ALTER TABLE Comunidade
+ADD CONSTRAINT fk_Com_Pes	FOREIGN KEY	(RegLider) REFERENCES Pessoas(RegistroUnico)
+ON UPDATE CASCADE;
+
+ALTER TABLE Pessoas
+ADD CONSTRAINT fk_Pes_Com	FOREIGN KEY	(Comunidade) REFERENCES Comunidade(Localizacao)
+ON UPDATE CASCADE;
+
+ALTER TABLE Civil
+ADD CONSTRAINT fk_Civ_Pes	FOREIGN KEY	(RegistroUnico) REFERENCES Pessoas(RegistroUnico)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Guardioes
+ADD CONSTRAINT fk_Gua_Pes	FOREIGN KEY	(RegistroUnico) REFERENCES Pessoas(RegistroUnico)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Veiculos
+ADD CONSTRAINT fk_Vei_Com	FOREIGN KEY	(Comunidade) REFERENCES Comunidade(Localizacao)
+ON UPDATE CASCADE;
+
+ALTER TABLE VeiculosCarga
+ADD CONSTRAINT fk_VeiC_Vei	FOREIGN KEY	(Placa) REFERENCES Veiculos(Placa)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Construcoes
+ADD CONSTRAINT fk_Cons_Com	FOREIGN KEY	(Comunidade) REFERENCES Comunidade(Localizacao)
+ON UPDATE CASCADE;
+
+ALTER TABLE Abrigo
+ADD CONSTRAINT fk_Abr_Cons	FOREIGN KEY	(Localizacao) REFERENCES Construcoes(Localizacao)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Fazenda
+ADD CONSTRAINT fk_Faz_Cons	FOREIGN KEY	(Localizacao) REFERENCES Construcoes(Localizacao)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE TipoPlantacao
+ADD CONSTRAINT fk_TPlant_Faz	FOREIGN KEY	(Localizacao) REFERENCES Fazenda(Localizacao)
+ON UPDATE CASCADE;
+
+ALTER TABLE Criadouro
+ADD CONSTRAINT fk_Cri_Cons	FOREIGN KEY	(Localizacao) REFERENCES Construcoes(Localizacao)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE TipoAnimais
+ADD CONSTRAINT fk_TAni_Cri	FOREIGN KEY	(Localizacao) REFERENCES Criadouro(Localizacao)
+ON UPDATE CASCADE;
+
+ALTER TABLE Armazem
+ADD CONSTRAINT fk_Arm_Cons	FOREIGN KEY	(Localizacao) REFERENCES Construcoes(Localizacao)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Roupas
+ADD CONSTRAINT fk_Rou_Arm	FOREIGN KEY	(Armazem) REFERENCES Armazem(Localizacao)
+ON UPDATE CASCADE;
+
+ALTER TABLE Roupas
+ADD CONSTRAINT fk_Rou_Trou	FOREIGN KEY	(CodRoupa) REFERENCES TipoRoupa(Codigo)
+ON UPDATE CASCADE;
+
+ALTER TABLE Consumiveis
+ADD CONSTRAINT fk_Cons_Arm	FOREIGN KEY	(Localizacao) REFERENCES Armazem(Localizacao)
+ON UPDATE CASCADE;
+
+ALTER TABLE Remedio
+ADD CONSTRAINT fk_Rem_Cons	FOREIGN KEY	(Localizacao,Nome,DataAquisicao) REFERENCES Consumiveis	(Localizacao,Nome,DataAquisicao)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Ferramentas
+ADD CONSTRAINT fk_Fer_Arm	FOREIGN KEY	(Armazem) REFERENCES Armazem(Localizacao)
+ON UPDATE CASCADE;
+
+ALTER TABLE FerramentasCombate
+ADD CONSTRAINT fk_FerC_Fer	FOREIGN KEY	(Registro) REFERENCES Ferramentas	(Registro)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE FerramentasUsoGeral
+ADD CONSTRAINT fk_FerU_Fer	FOREIGN KEY	(Registro) REFERENCES Ferramentas	(Registro)
+ON DELETE CASCADE ON UPDATE CASCADE;
