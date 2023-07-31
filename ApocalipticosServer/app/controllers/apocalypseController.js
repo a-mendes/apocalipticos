@@ -1,5 +1,8 @@
 const apocalypseModel = require('../models/apocalypseModel');
 
+/**
+ * Pessoas
+ */
 
 const getAllPessoas = async (req, res) => {
     try {

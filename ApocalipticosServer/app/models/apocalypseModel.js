@@ -1,9 +1,8 @@
 const {connection} = require('./connection');
 
 /**
- * Exemplos de rotas supondo o atual modelo ER 
+ * Pessoas
  */
-
 const getAllPessoas = async () => {
     const pessoas = await connection.query('SELECT * FROM pessoas');
     return pessoas.rows;
