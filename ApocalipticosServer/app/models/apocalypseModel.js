@@ -1,25 +1,12 @@
 const {connection} = require('./connection');
 
-/**
- * Pessoas
- */
-const getAllPessoas = async () => {
-    const pessoas = await connection.query('SELECT * FROM pessoas');
-    return pessoas.rows;
+const deletePessoa = async (registrounico) => {
+    let query = `DELETE FROM pessoas p
+                 WHERE p.registrounico = ${registrounico};`;
+    await connection.query(query);
 };
 
-const getPessoasPaged = async (body, page) => {
-    const {page_size} = body;
-
-    pageStart = (page - 1) * page_size;
-
-    let query = `SELECT * FROM pessoas 
-                    LIMIT ${page_size} OFFSET ${pageStart};`;
-    const pessoas = await connection.query(query);
-    return pessoas.rows;
-};
-
-const getPessoasByFilter = async (body) => {
+const getPessoas = async (body) => {
     const {registrounico} = body;
     const {nome} = body;
     const {datanascimento} = body;
@@ -42,7 +29,7 @@ const getPessoasByFilter = async (body) => {
                  LEFT JOIN guardioes g 
                  ON p.registrounico = g.registrounico `;
 
-    if(registrounico || nome || datanascimento || comunidade){
+    if(registrounico || nome || datanascimento || comunidade || profissao || raaf){
         query += `WHERE `;
     }
 
@@ -88,7 +75,6 @@ const getPessoasByFilter = async (body) => {
 
 
 module.exports = {
-    getAllPessoas,
-    getPessoasPaged,
-    getPessoasByFilter,
+    getPessoas,
+    deletePessoa,
 };
