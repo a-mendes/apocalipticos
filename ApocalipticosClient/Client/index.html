@@ -6,8 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vite App</title>
   </head>
+
   <body>
+    <audio id="musica" src="audio/TWD.mp3" autoplay="autoplay" loop preload="auto"></audio>
+    
     <div id="app" style="background-image: url(https://images4.alphacoders.com/616/616263.jpg); background-repeat: no-repeat; background-size: cover;"></div>
+
     <script type="module" src="/src/main.js"></script>
+
+    <script>
+      let html = document.querySelector("html");
+      let musica = document.querySelector("#musica");
+      html.addEventListener('click', () => {
+          musica.play();
+      })
+  </script>
+
   </body>
+
 </html>
