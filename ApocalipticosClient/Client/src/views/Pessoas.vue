@@ -21,6 +21,7 @@
                 <tbody>
                     <tr v-for="pessoa in pagination()" :key="pessoa.registrounico" class="bg-gray-900/70">
                         <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                            
                             {{ pessoa.nome }}
                         </th>
                         <td class="px-6 py-4">
@@ -108,14 +109,13 @@ import { AlertOctagonIcon } from 'lucide-vue-next';
                 axios.delete(`http://localhost:3000/pessoas/delete?registrounico=${registrounico}`)
                     .then(res => {
                         this.pessoas = res.data;  
-                })
+                    })
                     .catch(err => {
                         console.error(err.response);
+                        window.location.reload();
                 });
             },
         },
         components: { Trash2Icon, ArrowLeft, ArrowRight }
     }
 </script>
-
-<!-- Atualizar a pagina pós delete -->
