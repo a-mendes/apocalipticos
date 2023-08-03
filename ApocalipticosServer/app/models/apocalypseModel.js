@@ -60,11 +60,13 @@ const getPessoas = async (body) => {
     if(profissao){
         query += (and) ? (`AND `) : (``);
         query += `c.profissao = '${profissao}' `;
+        and = 1;
     }
 
     if(raaf){
         query += (and) ? (`AND `) : (``);
         query += `g.raaf = '${raaf}' `;
+        and = 1;
     }
 
     if(tipopessoa){
