@@ -13,6 +13,7 @@ const getPessoas = async (body) => {
     const {comunidade} = body;
     const {profissao} = body;
     const {raaf} = body;
+    const {tipopessoa} = body;
 
     let and = 0;
     
@@ -40,7 +41,7 @@ const getPessoas = async (body) => {
 
     if(nome){
         query += (and) ? (`AND `) : (``);
-        query += `p.nome = '${nome}' `;
+        query += `p.nome LIKE '%${nome}%' `;
         and = 1;
     }
 
@@ -64,6 +65,11 @@ const getPessoas = async (body) => {
     if(raaf){
         query += (and) ? (`AND `) : (``);
         query += `g.raaf = '${raaf}' `;
+    }
+
+    if(tipopessoa){
+        query += (and) ? (`AND `) : (``);
+        query += `tipopessoa = '${tipopessoa}' `;
     }
 
     console.log(query);
