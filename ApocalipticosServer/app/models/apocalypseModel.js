@@ -30,7 +30,7 @@ const getPessoas = async (body) => {
                  LEFT JOIN guardioes g 
                  ON p.registrounico = g.registrounico `;
 
-    if(registrounico || nome || datanascimento || comunidade || profissao || raaf){
+    if(registrounico || nome || datanascimento || comunidade || profissao || raaf || tipopessoa){
         query += `WHERE `;
     }
 
@@ -47,7 +47,7 @@ const getPessoas = async (body) => {
 
     if(datanascimento){
         query += (and) ? (`AND `) : (``);
-        query += `p.datanascimento = '${datanascimento}' `;
+        query += `p.datanascimento like '%${datanascimento}%' `;
         and = 1;
     }
     
@@ -71,7 +71,9 @@ const getPessoas = async (body) => {
 
     if(tipopessoa){
         query += (and) ? (`AND `) : (``);
-        query += `tipopessoa = '${tipopessoa}' `;
+        query += `(CASE WHEN g.raaf IS NULL THEN 'Civil'
+                        ELSE 'Guardião'
+                    END) = '${tipopessoa}' `;
     }
 
     console.log(query);
