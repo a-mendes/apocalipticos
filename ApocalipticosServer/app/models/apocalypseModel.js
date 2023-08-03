@@ -1,11 +1,5 @@
 const {connection} = require('./connection');
 
-const deletePessoa = async (registrounico) => {
-    let query = `DELETE FROM pessoas p
-                 WHERE p.registrounico = ${registrounico};`;
-    await connection.query(query);
-};
-
 const getPessoas = async (body) => {
     const {registrounico} = body;
     const {nome} = body;
@@ -14,40 +8,40 @@ const getPessoas = async (body) => {
     const {profissao} = body;
     const {raaf} = body;
     const {tipopessoa} = body;
-
+    
     let and = 0;
     
-    let query = `SELECT p.registrounico, p.nome, p.datanascimento, p.comunidade, c.profissao, g.raaf,
-                        (CASE
-                            WHEN g.raaf IS NULL THEN 'Civil'
-                            ELSE 'Guardião' 
-                        END) AS tipopessoa
-                 FROM pessoas p 
-
-                 LEFT JOIN civil c 
-                 ON p.registrounico = c.registrounico 
-
-                 LEFT JOIN guardioes g 
-                 ON p.registrounico = g.registrounico `;
-
-    if(registrounico || nome || datanascimento || comunidade || profissao || raaf){
-        query += `WHERE `;
-    }
-
-    if(registrounico){
-        query += `p.registrounico = ${registrounico} `;
-        and = 1;
-    }
-
-    if(nome){
-        query += (and) ? (`AND `) : (``);
+    let query = `SELECT p.registrounico, p.nome, to_char(p.datanascimento, 'dd-mm-yyyy') as datanascimento, p.comunidade, c.profissao, g.raaf,
+    (CASE
+        WHEN g.raaf IS NULL THEN 'Civil'
+        ELSE 'Guardião' 
+        END) AS tipopessoa
+        FROM pessoas p 
+        
+        LEFT JOIN civil c 
+        ON p.registrounico = c.registrounico 
+        
+        LEFT JOIN guardioes g 
+        ON p.registrounico = g.registrounico `;
+        
+        if(registrounico || nome || datanascimento || comunidade || profissao || raaf){
+            query += `WHERE `;
+        }
+        
+        if(registrounico){
+            query += `p.registrounico = ${registrounico} `;
+            and = 1;
+        }
+        
+        if(nome){
+            query += (and) ? (`AND `) : (``);
         query += `p.nome LIKE '%${nome}%' `;
         and = 1;
     }
-
+    
     if(datanascimento){
         query += (and) ? (`AND `) : (``);
-        query += `p.datanascimento = '${datanascimento}' `;
+        query += `to_char(p.datanascimento, 'dd-mm-yyyy') LIKE '%${datanascimento}%' `;
         and = 1;
     }
     
@@ -56,29 +50,61 @@ const getPessoas = async (body) => {
         query += `p.comunidade = '${comunidade}' `;
         and = 1;
     }
-
+    
     if(profissao){
         query += (and) ? (`AND `) : (``);
         query += `c.profissao = '${profissao}' `;
         and = 1;
     }
-
+    
     if(raaf){
         query += (and) ? (`AND `) : (``);
         query += `g.raaf = '${raaf}' `;
         and = 1;
     }
-
+    
     if(tipopessoa){
         query += (and) ? (`AND `) : (``);
         query += `tipopessoa = '${tipopessoa}' `;
     }
-
+    
     console.log(query);
-
+    
     const pessoas = await connection.query(query);
     return pessoas.rows;
 };
+
+const deletePessoa = async (registrounico) => {
+    let query = `DELETE FROM pessoas p
+                 WHERE p.registrounico = ${registrounico};`;
+    await connection.query(query);
+};
+
+const insertPessoa = async (body) => {
+    const {registrounico} = body;
+    const {nome} = body;
+    const {datanascimento} = body;
+    const {comunidade} = body;
+
+    const {profissao} = body;
+    const {raaf} = body;
+
+    let query = `INSERT INTO pessoas(registrounico, nome, datanascimento, comunidade)
+                VALUES (${registrounico}, '${nome}', '${datanascimento}', '${comunidade}'); `
+
+    if(raaf){
+        query += `INSERT INTO guardioes(registrounico, raaf)
+                    VALUES (${registrounico}, ${raaf}); `
+    }
+    else {
+        query += `INSERT INTO civil(registrounico, profissao)`
+        if(profissao) query += `VALUES (${registrounico}, '${profissao}'); `
+        else query += `VALUES (${registrounico}, NULL); `
+    }
+
+    console.log(query);
+    await connection.query(query);
+}
 
 const getVeiculos = async (body) => {
     const {placa} = body;
@@ -150,6 +176,7 @@ const deleteVeiculos = async (placa) =>{
 module.exports = {
     getPessoas,
     deletePessoa,
+    insertPessoa,
     getVeiculos,
     deleteVeiculos,
 };

@@ -18,6 +18,15 @@ const deletePessoa = async (req, res) => {
     }
 };
 
+const insertPessoa = async (req, res) => {
+    try { 
+        await apocalypseModel.insertPessoa(req.body);
+        res.status(201);
+    } catch(error) {
+        res.status(500).send(error);
+    }
+};
+
 const getVeiculos = async (req, res) => {
     try { 
         const pessoas = await apocalypseModel.getVeiculos(req.body);
@@ -41,4 +50,5 @@ module.exports = {
     deletePessoa,
     getVeiculos,
     deleteVeiculos,
+    insertPessoa,
 };

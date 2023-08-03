@@ -6,6 +6,8 @@ router.get('/info', (req, res) => res.status(200).send('Sistema de Gerenciamento
 
 router.post('/pessoas', apocalypseController.getPessoas);
 router.delete('/pessoas/delete/', apocalypseController.deletePessoa);
+router.put('/pessoas/insert/', apocalypseController.insertPessoa);
+
 
 router.post('/veiculos', apocalypseController.getVeiculos);
 router.delete('/veiculos/delete', apocalypseController.deleteVeiculos)
