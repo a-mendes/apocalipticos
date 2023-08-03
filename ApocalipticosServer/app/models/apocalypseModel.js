@@ -47,7 +47,7 @@ const getPessoas = async (body) => {
 
     if(datanascimento){
         query += (and) ? (`AND `) : (``);
-        query += `p.datanascimento like '%${datanascimento}%' `;
+        query += `to_char(p.datanascimento, 'dd-mm-yyyy') like '%${datanascimento}%' `;
         and = 1;
     }
     
