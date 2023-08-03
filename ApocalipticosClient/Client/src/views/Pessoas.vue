@@ -11,32 +11,32 @@
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 <p>Nome</p>
-                                <input type="text" v-model="tag">
-                                <button type="submit">Pesquisar</button>
+                                <input type="text" v-model="p_nome">
+                                <button type="submit"></button>
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Registro Único</p>
-                                <input type="text">
+                                <input type="text" v-model="p_registrounico">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Data de Nascimento</p>
-                                <input type="text">
+                                <input type="text" v-model="p_datanascimento">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Comunidade</p>
-                                <input type="text">
+                                <input type="text" v-model="p_comunidade">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Tipo</p>
-                                <input type="text">
+                                <input type="text" v-model="p_tipo">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Profissão</p>
-                                <input type="text">
+                                <input type="text" v-model="p_profissao">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>RAAF</p>
-                                <input type="text">
+                                <input type="text" v-model="p_raaf">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Ação</p>
@@ -85,8 +85,8 @@
 
 <script lang="ts">
     import axios from 'axios'
-import { AlertOctagonIcon } from 'lucide-vue-next';
-import { Tag } from 'lucide-vue-next';
+    import { AlertOctagonIcon } from 'lucide-vue-next';
+    import { Tag } from 'lucide-vue-next';
     
     import { ArrowRight } from 'lucide-vue-next';
     import { ArrowLeft } from 'lucide-vue-next';
@@ -109,6 +109,13 @@ import { Tag } from 'lucide-vue-next';
                 itemsPerPage: 7,
                 currentPage: 1,
                 tag: '',
+                p_nome: '',
+                p_registrounico: '',
+                p_datanascimento: '',
+                p_comunidade: '',
+                p_tipo: '',
+                p_profissao: '',
+                p_raaf: '',
             };
         },
         mounted() {
@@ -139,16 +146,16 @@ import { Tag } from 'lucide-vue-next';
                     })
                     .catch(err => {
                         console.error(err.response);
-                        window.location.reload();
+                        // window.location.reload();
                 });
             },
             submitForm() {
-                this.searchByTag(this.tag);
+                this.searchByTag(this.p_nome,this.p_registrounico,this.p_datanascimento,this.p_comunidade,this.p_tipo,this.p_profissao,this.p_raaf);
             },
-            async searchByTag(tag) {
+            async searchByTag(p_nome,p_registrounico,p_datanascimento,p_comunidade,p_tipo,p_profissao,p_raaf) {
                 try {
-                    console.log({nome:tag});
-                    const response = await axios.post(`http://localhost:3000/pessoas`, {nome:tag});
+                    console.log({nome:p_nome,registrounico:p_registrounico,datanascimento:p_datanascimento,comunidade:p_comunidade,tipopessoa:p_tipo,profissao:p_profissao,raaf:p_raaf});
+                    const response = await axios.post(`http://localhost:3000/pessoas`, {nome:p_nome,registrounico:p_registrounico,datanascimento:p_datanascimento,comunidade:p_comunidade,tipopessoa:p_tipo,profissao:p_profissao,raaf:p_raaf});
                     this.pessoas = response.data;
                     console.log(response.data);
                 } catch (error) {
