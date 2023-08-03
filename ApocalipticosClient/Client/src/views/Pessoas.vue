@@ -11,32 +11,32 @@
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 <p>Nome</p>
-                                <input type="text" v-model="p_nome">
+                                <input class="w-20 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_nome">
                                 <button type="submit"></button>
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Registro Único</p>
-                                <input type="text" v-model="p_registrounico">
+                                <input class="w-28 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_registrounico">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Data de Nascimento</p>
-                                <input type="text" v-model="p_datanascimento">
+                                <input class="w-36 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_datanascimento">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Comunidade</p>
-                                <input type="text" v-model="p_comunidade">
+                                <input class="w-24 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_comunidade">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Tipo</p>
-                                <input type="text" v-model="p_tipo">
+                                <input class="w-16 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_tipo">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Profissão</p>
-                                <input type="text" v-model="p_profissao">
+                                <input class="w-20 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_profissao">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>RAAF</p>
-                                <input type="text" v-model="p_raaf">
+                                <input class="w-16 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_raaf">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Ação</p>
@@ -44,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="pessoa in pagination()" :key="pessoa.registrounico" class="bg-gray-900/70">
+                        <tr v-for="pessoa in pagination()" :key="pessoa.registrounico" class="bg-gray-900/70 ">
                             <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
                                 {{ pessoa.nome }}
                             </th>
@@ -76,8 +76,9 @@
                 </table>
             </form>
         </div>
-        <div class="flex justify-center gap-6 p-3">
+        <div class="flex justify-center gap-6 p-3 items-center">
             <button @click="prevPage()" class="btn-circle btn flex justify-center items-center"><ArrowLeft/></button>
+            <p class="text-white">{{ currentPage }}</p>
             <button @click="nextPage()" class="btn-circle btn flex justify-center items-center"><ArrowRight/></button>
         </div>
     </div>
@@ -140,14 +141,8 @@
             },
             deleteperson(registrounico) {
                 axios.delete(`http://localhost:3000/pessoas/delete?registrounico=${registrounico}`)
-                    .then(res => {
-                        this.pessoas = res.data;  
-                    })
-                    .catch(err => {
-                        console.error(err.response);
-                        window.location.reload();
-                });
-            },
+                window.location.reload();
+             },
             submitForm() {
                 this.searchByTag(this.p_nome,this.p_registrounico,this.p_datanascimento,this.p_comunidade,this.p_tipo,this.p_profissao,this.p_raaf);
             },
