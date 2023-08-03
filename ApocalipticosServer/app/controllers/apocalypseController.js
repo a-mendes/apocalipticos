@@ -13,13 +13,32 @@ const deletePessoa = async (req, res) => {
     try { 
         let {registrounico} = req.query;
         await apocalypseModel.deletePessoa(registrounico);
+    } catch(error) {
+        res.status(500).send(error);
+    }
+};
+
+const getVeiculos = async (req, res) => {
+    try { 
+        const pessoas = await apocalypseModel.getVeiculos(req.body);
         res.status(200).json(pessoas);
     } catch(error) {
         res.status(500).send(error);
     }
 };
 
+const deleteVeiculos = async (req, res) => {
+    try { 
+        let {placa} = req.query;
+        await apocalypseModel.deleteVeiculos(placa);
+    } catch(error) {
+        res.status(500).send(error);
+    }
+}
+
 module.exports = {
     getPessoas,
     deletePessoa,
+    getVeiculos,
+    deleteVeiculos,
 };

@@ -72,9 +72,76 @@ const getPessoas = async (body) => {
     return pessoas.rows;
 };
 
+const getVeiculos = async (body) => {
+    const {placa} = body;
+    const {modelo} = body;
+    const {capacidadecombustivel} = body;
+    const {numassentos} = body;
+    const {comunidade} = body;
+    const {capacidadecarga} = body;
+
+    let and = 0;
+
+    let query = `SELECT v.placa , v.modelo, v.capacidadecombustivel, v.numassentos, v.comunidade, v2.capacidadecarga 
+                FROM veiculos v 
+                LEFT JOIN veiculoscarga v2 
+                ON v2.placa = v.placa `
+
+    if(placa || modelo || capacidadecombustivel || comunidade || numassentos || capacidadecarga){
+        query += `WHERE `;
+    }
+
+    if(placa){
+        query += `v.placa = '${placa}' `;
+        and = 1;
+    }
+
+    if(modelo){
+        query += (and) ? (`AND `) : (``);
+        query += `v.modelo = '${modelo}' `;
+        and = 1;
+    }
+
+    if(capacidadecombustivel){
+        query += (and) ? (`AND `) : (``);
+        query += `v.capacidadecombustivel = ${capacidadecombustivel} `;
+        and = 1;
+    }
+    
+    if(comunidade){
+        query += (and) ? (`AND `) : (``);
+        query += `p.comunidade = '${comunidade}' `;
+        and = 1;
+    }
+
+    if(numassentos){
+        query += (and) ? (`AND `) : (``);
+        query += `v.numassentos = ${numassentos} `;
+    }
+
+    if(capacidadecarga){
+        query += (and) ? (`AND `) : (``);
+        query += `v2.capacidadecarga = ${capacidadecarga} `;
+    }
+
+    console.log(query);
+    
+    const veiculos = await connection.query(query);
+    return  veiculos.rows;
+};
+
+const deleteVeiculos = async (placa) =>{
+    let query = `DELETE FROM veiculos v
+                WHERE v.placa = '${placa}' `;
+
+    console.log(query);
+    await connection.query(query);
+};
 
 
 module.exports = {
     getPessoas,
     deletePessoa,
+    getVeiculos,
+    deleteVeiculos,
 };

@@ -4,10 +4,11 @@ const apocalypseController = require('../controllers/apocalypseController');
 
 router.get('/info', (req, res) => res.status(200).send('Sistema de Gerenciamento de Recursos Pós-Apocalípticos'));
 
-
 router.post('/pessoas', apocalypseController.getPessoas);
 router.delete('/pessoas/delete/', apocalypseController.deletePessoa);
 
+router.post('/veiculos', apocalypseController.getVeiculos);
+router.delete('/veiculos/delete', apocalypseController.deleteVeiculos)
 
 
 module.exports = router;
