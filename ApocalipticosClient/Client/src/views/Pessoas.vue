@@ -5,51 +5,76 @@
         </div>
 
         <div class="relative overflow-x-auto shadow-md overflow-y-auto flex-1">
-            <table class="w-full text-sm text-left text-gray-400">
-                <thead class="text-xs uppercase bg-gray-700/70 text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">Nome</th>
-                        <th scope="col" class="px-6 py-3">Registro Único</th>
-                        <th scope="col" class="px-6 py-3">Data de Nascimento</th>
-                        <th scope="col" class="px-6 py-3">Comunidade</th>
-                        <th scope="col" class="px-6 py-3">Tipo</th>
-                        <th scope="col" class="px-6 py-3">Profissão</th>
-                        <th scope="col" class="px-6 py-3">RAAF</th>
-                        <th scope="col" class="px-6 py-3">Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="pessoa in pagination()" :key="pessoa.registrounico" class="bg-gray-900/70">
-                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
-                            
-                            {{ pessoa.nome }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ pessoa.registrounico }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ pessoa.datanascimento }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ pessoa.comunidade }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ pessoa.tipopessoa }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ pessoa.profissao }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ pessoa.raaf }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <button @click="deleteperson(pessoa.registrounico)">
-                                <Trash2Icon/>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <form @submit.prevent="submitForm">
+                <table class="w-full text-sm text-left text-gray-400">
+                    <thead class="text-xs uppercase bg-gray-700/70 text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                <p>Nome</p>
+                                <input type="text" v-model="tag">
+                                <button type="submit">Pesquisar</button>
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                <p>Registro Único</p>
+                                <input type="text">
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                <p>Data de Nascimento</p>
+                                <input type="text">
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                <p>Comunidade</p>
+                                <input type="text">
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                <p>Tipo</p>
+                                <input type="text">
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                <p>Profissão</p>
+                                <input type="text">
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                <p>RAAF</p>
+                                <input type="text">
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                <p>Ação</p>
+                            </th>         
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="pessoa in pagination()" :key="pessoa.registrounico" class="bg-gray-900/70">
+                            <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                                {{ pessoa.nome }}
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ pessoa.registrounico }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ pessoa.datanascimento }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ pessoa.comunidade }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ pessoa.tipopessoa }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ pessoa.profissao }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ pessoa.raaf }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <button @click="deleteperson(pessoa.registrounico)">
+                                    <Trash2Icon/>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
         </div>
         <div class="flex justify-center gap-6 p-3">
             <button @click="prevPage()" class="btn-circle btn flex justify-center items-center"><ArrowLeft/></button>
@@ -61,6 +86,7 @@
 <script lang="ts">
     import axios from 'axios'
 import { AlertOctagonIcon } from 'lucide-vue-next';
+import { Tag } from 'lucide-vue-next';
     
     import { ArrowRight } from 'lucide-vue-next';
     import { ArrowLeft } from 'lucide-vue-next';
@@ -82,6 +108,7 @@ import { AlertOctagonIcon } from 'lucide-vue-next';
                 pessoas: [] as Pessoa[],
                 itemsPerPage: 7,
                 currentPage: 1,
+                tag: '',
             };
         },
         mounted() {
@@ -115,6 +142,19 @@ import { AlertOctagonIcon } from 'lucide-vue-next';
                         window.location.reload();
                 });
             },
+            submitForm() {
+                this.searchByTag(this.tag);
+            },
+            async searchByTag(tag) {
+                try {
+                    console.log({nome:tag});
+                    const response = await axios.post(`http://localhost:3000/pessoas`, {nome:tag});
+                    this.pessoas = response.data;
+                    console.log(response.data);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
         },
         components: { Trash2Icon, ArrowLeft, ArrowRight }
     }
