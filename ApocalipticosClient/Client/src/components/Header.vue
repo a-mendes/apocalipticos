@@ -20,7 +20,7 @@
                         </a>
                     </li>
 
-                    <RouterLink to="/logout">
+                    <RouterLink to="/login">
                         <li><a>Logout</a></li>
                     </RouterLink>
                 </ul>
