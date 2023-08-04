@@ -217,7 +217,7 @@ const getConsumiveis = async (body) => {
     let query = `SELECT c.localizacao, c.nome, c.dataaquisicao, c.validade, c.quantidade, c2.enfermidade
                 FROM consumiveis c 
                 LEFT JOIN remedio c2 
-                ON c2.localizacao = c.localizacao `
+                ON c2.nome = c.nome AND c.localizacao = c2.localizacao `
     
     if(localizacao || nome || dataaquisicao || validade || quantidade ||enfermidade){
         query += `WHERE `;
@@ -253,13 +253,13 @@ const getConsumiveis = async (body) => {
 
     if(enfermidade){
         query += (and) ? (`AND `) : (``);
-        query += `c2.enfermidadeTrat = ${enfermidade} `;
+        query += `c2.enfermidade = '${enfermidade}' `;
     }
 
     console.log(query);
     
-    const veiculos = await connection.query(query);
-    return  veiculos.rows;
+    const consumiveis = await connection.query(query);
+    return  consumiveis.rows;
 };            
 
 const deleteConsumiveis = async (localizacao) => {

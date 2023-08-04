@@ -57,8 +57,8 @@ const deleteVeiculos = async (req, res) => {
 
 const getConsumiveis = async (req, res) => {
     try { 
-        const pessoas = await apocalypseModel.getConsumiveis(req.body);
-        res.status(200).json(pessoas);
+        const consumiveis = await apocalypseModel.getConsumiveis(req.body);
+        res.status(200).json(consumiveis);
     } catch(error) {
         res.status(500).send(error);
     }
