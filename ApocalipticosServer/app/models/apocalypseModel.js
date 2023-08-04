@@ -104,7 +104,39 @@ const insertPessoa = async (body) => {
 
     console.log(query);
     await connection.query(query);
-}
+};
+
+const updatePessoa = async (registrounico, body) => {
+    const {nome} = body;
+    const {datanascimento} = body;
+    const {comunidade} = body;
+    const {profissao} = body;
+    const {raaf} = body;
+
+    let query = `UPDATE pessoas
+                SET 
+                    nome = '${nome}',
+                    datanascimento = '${datanascimento}',
+                    comunidade = '${comunidade}'
+                WHERE registrounico = ${registrounico}; `; 
+
+    if(raaf){
+        query += `UPDATE guardioes
+                SET 
+                    raaf = ${raaf}
+                WHERE registrounico = ${registrounico}; `
+    }
+
+    else if(profissao){
+        query += `UPDATE civil
+                SET 
+                    profissao = '${profissao}'
+                WHERE registrounico = ${registrounico}; `
+    }
+
+    console.log(query);
+    await connection.query(query);
+};
 
 const getVeiculos = async (body) => {
     const {placa} = body;
@@ -177,6 +209,7 @@ module.exports = {
     getPessoas,
     deletePessoa,
     insertPessoa,
+    updatePessoa,
     getVeiculos,
     deleteVeiculos,
 };
