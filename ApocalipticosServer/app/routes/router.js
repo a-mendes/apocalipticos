@@ -12,5 +12,7 @@ router.put('/pessoas/insert/', apocalypseController.insertPessoa);
 router.post('/veiculos', apocalypseController.getVeiculos);
 router.delete('/veiculos/delete', apocalypseController.deleteVeiculos)
 
+router.post('/consumiveis', apocalypseController.getConsumiveis);
+router.delete('/consumiveis/delete', apocalypseController.deleteConsumiveis);
 
 module.exports = router;

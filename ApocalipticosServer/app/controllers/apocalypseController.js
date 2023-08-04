@@ -43,7 +43,25 @@ const deleteVeiculos = async (req, res) => {
     } catch(error) {
         res.status(500).send(error);
     }
-}
+};
+
+const getConsumiveis = async (req, res) => {
+    try { 
+        const pessoas = await apocalypseModel.getConsumiveis(req.body);
+        res.status(200).json(pessoas);
+    } catch(error) {
+        res.status(500).send(error);
+    }
+};
+
+const deleteConsumiveis = async (req, res) => {
+    try { 
+        let {localizacao} = req.query;
+        await apocalypseModel.deleteVeiculos(localizacao);
+    } catch(error) {
+        res.status(500).send(error);
+    }
+};
 
 module.exports = {
     getPessoas,
@@ -51,4 +69,6 @@ module.exports = {
     getVeiculos,
     deleteVeiculos,
     insertPessoa,
+    getConsumiveis,
+    deleteConsumiveis,
 };

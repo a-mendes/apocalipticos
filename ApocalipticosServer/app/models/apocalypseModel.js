@@ -172,6 +172,69 @@ const deleteVeiculos = async (placa) =>{
     await connection.query(query);
 };
 
+const getConsumiveis = async (body) => {
+    const {localizacao} = body;
+    const {nome} = body;
+    const {dataaquisicao} = body;
+    const {validade} = body;
+    const {quantidade} = body;
+    const {enfermidade} = body;
+
+    let and = 0;
+
+    let query = `SELECT c.localizacao, c.nome, c.dataaquisicao, c.validade, c.quantidade, c2.enfermidade
+                FROM consumiveis c 
+                LEFT JOIN remedio c2 
+                ON c2.localizacao = c.localizacao `
+    
+    if(localizacao || nome || dataaquisicao || validade || quantidade ||enfermidade){
+        query += `WHERE `;
+    }
+
+    if(localizacao){
+        query += `c.localizacao = '${localizacao}' `;
+        and = 1;
+    }
+
+    if(nome){
+        query += (and) ? (`AND `) : (``);
+        query += ` c.nome = '${nome}' `;
+        and = 1;
+    }
+
+    if(dataaquisicao){
+        query += (and) ? (`AND `) : (``);
+        query += `c.dataaquisicao = ${dataaquisicao} `;
+        and = 1;
+    }
+    
+    if(validade){
+        query += (and) ? (`AND `) : (``);
+        query += `c.validade = '${validade}' `;
+        and = 1;
+    }
+
+    if(quantidade){
+        query += (and) ? (`AND `) : (``);
+        query += `c.quantidade = ${quantidade} `;
+    }
+
+    if(enfermidade){
+        query += (and) ? (`AND `) : (``);
+        query += `c2.enfermidadeTrat = ${enfermidade} `;
+    }
+
+    console.log(query);
+    
+    const veiculos = await connection.query(query);
+    return  veiculos.rows;
+};            
+
+const deleteConsumiveis = async (localizacao) => {
+    let query = `DELETE FROM consumiveis p
+                 WHERE p.localizacao = ${localizacao};`;
+    await connection.query(query);
+};
 
 module.exports = {
     getPessoas,
@@ -179,4 +242,6 @@ module.exports = {
     insertPessoa,
     getVeiculos,
     deleteVeiculos,
+    getConsumiveis,
+    deleteConsumiveis,
 };
