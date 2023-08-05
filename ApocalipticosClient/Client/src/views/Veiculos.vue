@@ -136,6 +136,7 @@
             },
             async searchByTag(v_modelo,v_placa,v_combustivel,v_assentos,v_comunidade,v_carga) {
                 try {
+                    console.log({v_modelo,v_placa,v_combustivel,v_assentos,v_comunidade,v_carga});
                     const response = await axios.post(`http://localhost:3000/veiculos`, {modelo:v_modelo,placa:v_placa,capacidadecombustivel:v_combustivel,numassentos:v_assentos,comunidade:v_comunidade,capacidadecarga:v_carga});
                     this.veiculo = response.data;
                     console.log(response.data);

@@ -148,7 +148,6 @@
             },
             async searchByTag(p_nome,p_registrounico,p_datanascimento,p_comunidade,p_tipo,p_profissao,p_raaf) {
                 try {
-                    // console.log({nome:p_nome,registrounico:p_registrounico,datanascimento:p_datanascimento,comunidade:p_comunidade,tipopessoa:p_tipo,profissao:p_profissao,raaf:p_raaf});
                     const response = await axios.post(`http://localhost:3000/pessoas`, {nome:p_nome,registrounico:p_registrounico,datanascimento:p_datanascimento,comunidade:p_comunidade,tipopessoa:p_tipo,profissao:p_profissao,raaf:p_raaf});
                     this.pessoas = response.data;
                     console.log(response.data);
