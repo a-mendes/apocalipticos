@@ -16,13 +16,13 @@ const getPessoas = async (body) => {
                     WHEN g.raaf IS NULL THEN 'Civil'
                     ELSE 'Guardião' 
                     END) AS tipopessoa
-                    FROM pessoas p 
-                    
-                    LEFT JOIN civil c 
-                    ON p.registrounico = c.registrounico 
-                    
-                    LEFT JOIN guardioes g 
-                    ON p.registrounico = g.registrounico `;
+                FROM pessoas p 
+                
+                LEFT JOIN civil c 
+                ON p.registrounico = c.registrounico 
+                
+                LEFT JOIN guardioes g 
+                ON p.registrounico = g.registrounico `;
         
     if(registrounico || nome || datanascimento || comunidade || profissao || raaf || tipopessoa){
         query += `WHERE `;
@@ -161,13 +161,13 @@ const getVeiculos = async (body) => {
     }
 
     if(placa){
-        query += `v.placa = '${placa}' `;
+        query += `UPPER(v.placa) LIKE UPPER('%${placa}%') `;
         and = 1;
     }
 
     if(modelo){
         query += (and) ? (`AND `) : (``);
-        query += `v.modelo = '${modelo}' `;
+        query += `UPPER(v.modelo) LIKE UPPER('%${modelo}%') `;
         and = 1;
     }
 
@@ -179,7 +179,7 @@ const getVeiculos = async (body) => {
     
     if(comunidade){
         query += (and) ? (`AND `) : (``);
-        query += `p.comunidade = '${comunidade}' `;
+        query += `UPPER(p.comunidade) LIKE UPPER('${comunidade}') `;
         and = 1;
     }
 
@@ -233,7 +233,7 @@ const getConsumiveis = async (body) => {
 
     if(nome){
         query += (and) ? (`AND `) : (``);
-        query += ` c.nome = '${nome}' `;
+        query += `UPPER(c.nome) LIKE UPPER('%${nome}%') `;
         and = 1;
     }
 
@@ -256,7 +256,7 @@ const getConsumiveis = async (body) => {
 
     if(enfermidade){
         query += (and) ? (`AND `) : (``);
-        query += `c2.enfermidade = '${enfermidade}' `;
+        query += `UPPER(c2.enfermidade) LIKE UPPER('%${enfermidade}%') `;
     }
 
     console.log(query);
@@ -265,9 +265,11 @@ const getConsumiveis = async (body) => {
     return  consumiveis.rows;
 };            
 
-const deleteConsumiveis = async (localizacao) => {
+const deleteConsumiveis = async (localizacao, nome) => {
     let query = `DELETE FROM consumiveis p
-                 WHERE p.localizacao = ${localizacao};`;
+                 WHERE p.localizacao = '${localizacao}' AND p.nome = '${nome}'; `;
+    
+    console.log(query);
     await connection.query(query);
 };
 
