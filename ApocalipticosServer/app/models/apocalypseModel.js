@@ -24,7 +24,7 @@ const getPessoas = async (body) => {
                     LEFT JOIN guardioes g 
                     ON p.registrounico = g.registrounico `;
         
-    if(registrounico || nome || datanascimento || comunidade || profissao || raaf){
+    if(registrounico || nome || datanascimento || comunidade || profissao || raaf || tipopessoa){
         query += `WHERE `;
     }
     
@@ -35,39 +35,39 @@ const getPessoas = async (body) => {
     
     if(nome){
         query += (and) ? (`AND `) : (``);
-        query += `p.nome LIKE '%${nome}%' `;
+        query += `UPPER(p.nome) LIKE UPPER('%${nome}%') `;
         and = 1;
     }
     
     if(datanascimento){
         query += (and) ? (`AND `) : (``);
-        query += `to_char(p.datanascimento, 'dd-mm-yyyy') LIKE '%${datanascimento}%' `;
+        query += `TO_CHAR(p.datanascimento, 'dd-mm-yyyy') LIKE '%${datanascimento}%' `;
         and = 1;
     }
     
     if(comunidade){
         query += (and) ? (`AND `) : (``);
-        query += `p.comunidade = '${comunidade}' `;
+        query += `UPPER(p.comunidade) LIKE UPPER('%${comunidade}%') `;
         and = 1;
     }
     
     if(profissao){
         query += (and) ? (`AND `) : (``);
-        query += `c.profissao = '${profissao}' `;
+        query += `UPPER(c.profissao) LIKE UPPER('%${profissao}%') `;
         and = 1;
     }
     
     if(raaf){
         query += (and) ? (`AND `) : (``);
-        query += `g.raaf = '${raaf}' `;
+        query += `g.raaf = ${raaf} `;
         and = 1;
     }
     
     if(tipopessoa){
         query += (and) ? (`AND `) : (``);
-        query += `(CASE WHEN g.raaf IS NULL THEN 'Civil'
-                        ELSE 'Guardião'
-                    END) = '${tipopessoa}' `;
+        query += `(CASE WHEN g.raaf IS NULL THEN 'CIVIL'
+                        ELSE 'GUARDIÃO'
+                    END) LIKE UPPER('%${tipopessoa}%') `;
     }
     
     console.log(query);
