@@ -7,36 +7,36 @@
         <div class="relative overflow-x-auto shadow-md overflow-y-auto flex-1">
             <form @submit.prevent="submitForm">
                 <table class="w-full text-sm text-left text-gray-400">
-                    <thead class="text-xs uppercase bg-gray-700/70 text-gray-400">
+                    <thead class="text-xs uppercase bg-gray-700/80 text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 <p>Nome</p>
-                                <input class="w-20 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_nome">
+                                <input class="w-20 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="nome">
                                 <button type="submit"></button>
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Registro Único</p>
-                                <input class="w-28 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_registrounico">
+                                <input class="w-28 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="registrounico">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Data de Nascimento</p>
-                                <input class="w-36 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_datanascimento">
+                                <input class="w-36 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="datanascimento">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Comunidade</p>
-                                <input class="w-24 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_comunidade">
+                                <input class="w-24 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="comunidade">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Tipo</p>
-                                <input class="w-16 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_tipo">
+                                <input class="w-16 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="tipo">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Profissão</p>
-                                <input class="w-20 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_profissao">
+                                <input class="w-20 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="profissao">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>RAAF</p>
-                                <input class="w-16 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="p_raaf">
+                                <input class="w-16 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="raaf">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Ação</p>
@@ -44,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="pessoa in pagination()" :key="pessoa.registrounico" class="bg-gray-900/70 ">
+                        <tr v-for="pessoa in pagination()" :key="pessoa.registrounico" class="bg-gray-900/80">
                             <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
                                 {{ pessoa.nome }}
                             </th>
@@ -66,32 +66,44 @@
                             <td class="px-6 py-4">
                                 {{ pessoa.raaf }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 flex gap-2">
                                 <button @click="deleteperson(pessoa.registrounico)">
                                     <Trash2Icon/>
                                 </button>
+                                <RouterLink :to="{ name: 'PessoasUpdate', params: { id: pessoa.registrounico } }">
+                                    <Edit/>
+                                </RouterLink>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </form>
         </div>
-        <div class="flex justify-center gap-6 p-3 items-center">
-            <button @click="prevPage()" class="btn-circle btn flex justify-center items-center"><ArrowLeft/></button>
-            <p class="text-white">{{ currentPage }}</p>
-            <button @click="nextPage()" class="btn-circle btn flex justify-center items-center"><ArrowRight/></button>
+        <div class="flex justify-center items-center">
+            <div class="flex justify-center gap-6 p-3 items-center">
+                <button @click="prevPage()" class="btn-circle btn flex justify-center items-center"><ArrowLeft/></button>
+                <p class="text-white">{{ currentPage }}</p>
+                <button @click="nextPage()" class="btn-circle btn flex justify-center items-center"><ArrowRight/></button>
+            </div>
+            <RouterLink :to="{name: 'PessoasAdd'}" class="absolute right-4">
+                <button class="btn btn-circle">
+                    <Plus/>
+                </button>
+            </RouterLink>
         </div>
     </div>
 </template>
 
 <script lang="ts">
     import axios from 'axios'
-    import { AlertOctagonIcon } from 'lucide-vue-next';
-    import { Tag } from 'lucide-vue-next';
     
+    import { RouterLink } from 'vue-router';
+
+    import { Edit } from 'lucide-vue-next';
     import { ArrowRight } from 'lucide-vue-next';
     import { ArrowLeft } from 'lucide-vue-next';
     import { Trash2Icon } from 'lucide-vue-next';
+    import { Plus } from 'lucide-vue-next';
 
     interface Pessoa {
         registrounico: string,
@@ -109,13 +121,13 @@
                 pessoas: [] as Pessoa[],
                 itemsPerPage: 7,
                 currentPage: 1,
-                p_nome: '',
-                p_registrounico: '',
-                p_datanascimento: '',
-                p_comunidade: '',
-                p_tipo: '',
-                p_profissao: '',
-                p_raaf: '',
+                nome: '',
+                registrounico: '',
+                datanascimento: '',
+                comunidade: '',
+                tipo: '',
+                profissao: '',
+                raaf: '',
             };
         },
         mounted() {
@@ -141,21 +153,24 @@
             },
             deleteperson(registrounico) {
                 axios.delete(`http://localhost:3000/pessoas/delete?registrounico=${registrounico}`)
-                window.location.reload();
-             },
-            submitForm() {
-                this.searchByTag(this.p_nome,this.p_registrounico,this.p_datanascimento,this.p_comunidade,this.p_tipo,this.p_profissao,this.p_raaf);
             },
-            async searchByTag(p_nome,p_registrounico,p_datanascimento,p_comunidade,p_tipo,p_profissao,p_raaf) {
+            async submitForm() {
                 try {
-                    const response = await axios.post(`http://localhost:3000/pessoas`, {nome:p_nome,registrounico:p_registrounico,datanascimento:p_datanascimento,comunidade:p_comunidade,tipopessoa:p_tipo,profissao:p_profissao,raaf:p_raaf});
+                    const response = await axios.post(`http://localhost:3000/pessoas`, {
+                        nome: this.nome,
+                        registrounico: this.registrounico,
+                        datanascimento: this.datanascimento,
+                        comunidade: this.comunidade,
+                        tipo: this.tipo,
+                        profissao: this.profissao,
+                        raaf: this.raaf,
+                    });
                     this.pessoas = response.data;
-                    console.log(response.data);
                 } catch (error) {
                     console.error(error);
                 }
-            }
+            },
         },
-        components: { Trash2Icon, ArrowLeft, ArrowRight }
+        components: { Trash2Icon, ArrowLeft, ArrowRight, Edit, RouterLink, Plus }
     }
 </script>

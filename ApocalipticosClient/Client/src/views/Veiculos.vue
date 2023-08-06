@@ -7,33 +7,34 @@
         <div class="relative overflow-x-auto shadow-md overflow-y-auto flex-1">
             <form @submit.prevent="submitForm">
                 <table class="w-full text-sm text-left text-gray-400">
-                    <thead class="text-xs uppercase bg-gray-700/70 text-gray-400">
+                    <thead class="text-xs uppercase bg-gray-700/70 text-white">
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 <p>Modelo</p>
-                                <input class="w-20 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="v_modelo">
+                                <input class="w-28 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="modelo">
                                 <button type="submit"></button>
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Placa</p>
-                                <input class="w-28 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="v_placa">
+                                <input class="w-28 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="placa">
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                <p>Combustível</p>
-                                <input class="w-36 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="v_combustivel">
+                                <p>Combustivel</p>
+                                <input class="w-28 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="combustivel">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Assentos</p>
-                                <input class="w-24 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="v_assentos">
+                                <input class="w-28 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="assentos">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Comunidade</p>
-                                <input class="w-16 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="v_comunidade">
+                                <input class="w-28 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="comunidade">
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <p>Carga</p>
-                                <input class="w-16 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="v_carga">
+                                <input class="w-28 bg-gray-900/50 rounded focus:outline-none focus:ring focus:ring-slate-500" type="text" v-model="carga">
                             </th>
+
                             <th scope="col" class="px-6 py-3">
                                 <p>Ação</p>
                             </th>         
@@ -98,12 +99,12 @@
                 veiculo: [] as Veiculo[],
                 itemsPerPage: 7,
                 currentPage: 1,
-                v_modelo: '',
-                v_placa: '',
-                v_combustivel: '',
-                v_assentos: '',
-                v_comunidade: '',
-                v_carga: '',
+                modelo: '',
+                placa: '',
+                combustivel: '',
+                assentos: '',
+                comunidade: '',
+                carga: '',
             };
         },
         mounted() {
@@ -132,14 +133,19 @@
                 window.location.reload();
              },
             submitForm() {
-                this.searchByTag(this.v_modelo,this.v_placa,this.v_combustivel,this.v_assentos,this.v_comunidade,this.v_carga);
+                this.searchByTag();
             },
-            async searchByTag(v_modelo,v_placa,v_combustivel,v_assentos,v_comunidade,v_carga) {
+            async searchByTag() {
                 try {
-                    console.log({v_modelo,v_placa,v_combustivel,v_assentos,v_comunidade,v_carga});
-                    const response = await axios.post(`http://localhost:3000/veiculos`, {modelo:v_modelo,placa:v_placa,capacidadecombustivel:v_combustivel,numassentos:v_assentos,comunidade:v_comunidade,capacidadecarga:v_carga});
+                    const response = await axios.post(`http://localhost:3000/veiculos`, {
+                        modelo: this.modelo,
+                        placa: this.placa,
+                        combustivel: this.combustivel,
+                        assentos: this.assentos,
+                        comunidade: this.comunidade,
+                        carga: this.carga,
+                    });
                     this.veiculo = response.data;
-                    console.log(response.data);
                 } catch (error) {
                     console.error(error);
                 }

@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import Home from '../views/Home.vue'
 import Pessoas from '../views/Pessoas.vue'
+import PessoasUpdate from '../views/PessoasUpdate.vue'
+import PessoasAdd from '../views/PessoasAdd.vue'
+
 import Veiculos from '../views/Veiculos.vue'
 import Construcoes from '../views/Construcoes.vue'
 import Consumiveis from '../views/Consumiveis.vue'
@@ -15,27 +19,51 @@ const router = createRouter({
     name: 'Home',
     component: Home,
   },
-  {path: '/pessoas',
+  { 
+    path: '/pessoas',
     name: 'Pessoas',
-    component: Pessoas,},
-  {path: '/veiculos',
+    component: Pessoas,
+  },
+  {
+    path: '/veiculos',
     name: 'Veiculos',
-    component: Veiculos,},
-  {path: '/construcoes',
+    component: Veiculos,
+  },
+  {
+    path: '/construcoes',
     name: 'Construcoes',
-    component: Construcoes,},
-  {path: '/consumiveis',
+    component: Construcoes,
+  },
+  {
+    path: '/consumiveis',
     name: 'Consumiveis',
-    component: Consumiveis,},
-  {path: '/roupas',
+    component: Consumiveis,
+  },
+  {
+    path: '/roupas',
     name: 'Roupas',
-    component: Roupas,},
-  {path: '/ferramentas',
+    component: Roupas,
+  },
+  {
+    path: '/ferramentas',
     name: 'Ferramentas',
-    component: Ferramentas,},
-  {path: '/login',
+    component: Ferramentas,
+  },
+  {
+    path: '/login',
     name: 'Login',
-    component: Login,}
+    component: Login,
+  },
+  {
+    path: '/pessoas/update/:id',
+    name: 'PessoasUpdate',
+    component: PessoasUpdate,
+  },
+  {
+    path: '/pessoas/add',
+    name: 'PessoasAdd',
+    component: PessoasAdd,
+  },
   ]
 })
 

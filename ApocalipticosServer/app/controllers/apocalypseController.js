@@ -29,8 +29,7 @@ const insertPessoa = async (req, res) => {
 
 const updatePessoa = async (req, res) => {
     try { 
-        let {registrounico} = req.query;
-        await apocalypseModel.updatePessoa(registrounico, req.body);
+        await apocalypseModel.updatePessoa(req.body);
         res.status(201).send("Pessoa atualizada com Sucesso");
     } catch(error) {
         res.status(500).send(error);

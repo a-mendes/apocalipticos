@@ -108,12 +108,13 @@ const insertPessoa = async (body) => {
     await connection.query(query);
 };
 
-const updatePessoa = async (registrounico, body) => {
+const updatePessoa = async (body) => {
     const {nome} = body;
     const {datanascimento} = body;
     const {comunidade} = body;
     const {profissao} = body;
     const {raaf} = body;
+    const {registrounico} = body;
 
     let query = `UPDATE pessoas
                 SET 
