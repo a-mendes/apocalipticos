@@ -10,13 +10,13 @@
             <div class="dropdown dropdown-end">
                 <label tabindex="0" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1VclrOZ3q0mNZyc9zsNqp5Ns2jd3HkuBkBA&usqp=CAU" />
+                        <img src="../../profile/death.jpg" />
                     </div>
                 </label>
                 <ul tabindex="0" class="bg-black/80 menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-gray-400">
                     <li>
                         <a class="justify-between">
-                            Hamade
+                            Pessoa
                         </a>
                     </li>
 
