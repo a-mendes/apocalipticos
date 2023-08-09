@@ -161,7 +161,7 @@
                         registrounico: this.registrounico,
                         datanascimento: this.datanascimento,
                         comunidade: this.comunidade,
-                        tipo: this.tipo,
+                        tipopessoa: this.tipo,
                         profissao: this.profissao,
                         raaf: this.raaf,
                     });

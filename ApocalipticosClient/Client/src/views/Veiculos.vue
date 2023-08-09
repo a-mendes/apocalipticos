@@ -140,10 +140,10 @@
                     const response = await axios.post(`http://localhost:3000/veiculos`, {
                         modelo: this.modelo,
                         placa: this.placa,
-                        combustivel: this.combustivel,
-                        assentos: this.assentos,
+                        capacidadecombustivel: this.combustivel,
+                        numassentos: this.assentos,
                         comunidade: this.comunidade,
-                        carga: this.carga,
+                        capacidadecarga: this.carga,
                     });
                     this.veiculo = response.data;
                 } catch (error) {

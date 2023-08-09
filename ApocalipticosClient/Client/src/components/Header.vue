@@ -2,7 +2,7 @@
 <template> 
     <div class="fixed navbar bg-gray-900/80 z-50">
         <div class="flex-1">
-            <RouterLink to="/">
+            <RouterLink to="/home">
                 <a class="btn btn-ghost normal-case text-xl">Gerenciamento de Recurso</a>
             </RouterLink>
         </div>
@@ -20,7 +20,7 @@
                         </a>
                     </li>
 
-                    <RouterLink to="/login">
+                    <RouterLink to="/">
                         <li><a>Logout</a></li>
                     </RouterLink>
                 </ul>
