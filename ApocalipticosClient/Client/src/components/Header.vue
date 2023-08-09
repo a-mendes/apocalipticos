@@ -32,8 +32,10 @@
 <!--Importações -->
 <script>
 
+import { ShowerHead } from 'lucide-vue-next';
 import { UserCircle2 } from 'lucide-vue-next';
 import { RouterLink, RouterView } from 'vue-router'
+
 
 export default {
   name: 'Header',
