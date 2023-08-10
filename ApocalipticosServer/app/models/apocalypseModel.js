@@ -162,7 +162,7 @@ const updatePessoa = async (body) => {
 
         else {
             await connection.query(` DELETE FROM Guardioes g WHERE g.registrounico = ${registrounico}; `);
-            
+
             let profissaoAux = (profissao) ? (`'${profissao}'`) : (`NULL`);
 
             let insert = `INSERT INTO Civil (RegistroUnico, Profissao)
@@ -252,7 +252,7 @@ const getConsumiveis = async (body) => {
 
     let and = 0;
 
-    let query = `SELECT c.localizacao, c.nome, c.dataaquisicao, c.validade, c.quantidade, c2.enfermidade
+    let query = `SELECT c.localizacao, c.nome, to_char(c.dataaquisicao, 'dd-mm-yyyy') as dataaquisicao, to_char(c.validade, 'dd-mm-yyyy') as validade, c.quantidade, c2.enfermidade
                 FROM consumiveis c 
                 LEFT JOIN remedio c2 
                 ON c2.nome = c.nome AND c.localizacao = c2.localizacao `
@@ -274,13 +274,13 @@ const getConsumiveis = async (body) => {
 
     if(dataaquisicao){
         query += (and) ? (`AND `) : (``);
-        query += `c.dataaquisicao = ${dataaquisicao} `;
+        query += `to_char(c.dataaquisicao, 'dd-mm-yyyy') LIKE '%${dataaquisicao}%' `;
         and = 1;
     }
     
     if(validade){
         query += (and) ? (`AND `) : (``);
-        query += `c.validade = '${validade}' `;
+        query += `to_char(c.validade, 'dd-mm-yyyy') LIKE '%${validade}%' `;
         and = 1;
     }
 
