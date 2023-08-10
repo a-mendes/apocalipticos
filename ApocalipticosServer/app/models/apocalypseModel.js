@@ -124,17 +124,55 @@ const updatePessoa = async (body) => {
                 WHERE registrounico = ${registrounico}; `; 
 
     if(raaf){
-        query += `UPDATE guardioes
-                SET 
-                    raaf = ${raaf}
-                WHERE registrounico = ${registrounico}; `
+        let select = `SELECT * FROM guardioes g WHERE g.registrounico = ${registrounico}; `
+        const guardioes = await connection.query(select);
+
+        if(guardioes.rows.length > 0){
+            query += `UPDATE guardioes
+                    SET 
+                        raaf = ${raaf}
+                    WHERE registrounico = ${registrounico}; `;
+        }
+
+        else {
+            await connection.query(`DELETE FROM civil c WHERE c.registrounico = ${registrounico}; `);
+
+            let insert = `INSERT INTO Guardioes (RegistroUnico, RAAF)
+                            VALUES (${registrounico}, ${raaf}) `; 
+            await connection.query(insert);
+
+        }
     }
 
-    else if(profissao){
-        query += `UPDATE civil
-                SET 
-                    profissao = '${profissao}'
-                WHERE registrounico = ${registrounico}; `
+    else {
+        let select = `SELECT * FROM civil c WHERE c.registrounico = ${registrounico}; `
+        const civis = await connection.query(select);
+
+        console.log(civis);
+
+        if(civis.rows.length > 0){
+            query += `UPDATE civil
+                    SET 
+                        profissao = '${profissao}'
+                    WHERE registrounico = ${registrounico}; `
+
+            console.log(query);
+
+        }
+
+        else {
+            await connection.query(` DELETE FROM Guardioes g WHERE g.registrounico = ${registrounico}; `);
+
+            console.log(profissao);
+
+            let profissaoAux = (profissao) ? (`'${profissao}'`) : (`NULL`);
+
+            console.log(profissaoAux);
+            let insert = `INSERT INTO Civil (RegistroUnico, Profissao)
+                            VALUES (${registrounico}, ${profissaoAux}) `; 
+            await connection.query(insert);
+
+        }
     }
 
     console.log(query);
