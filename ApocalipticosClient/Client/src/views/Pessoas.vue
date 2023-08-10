@@ -1,4 +1,5 @@
 <template>
+    <Header/>
     <div class="pt-20 flex flex-col gap-5 h-screen">
         <div class="flex flex-col justify-center items-center gap-3">
             <h1 class="text-3xl text-center font-medium text-white p-3">Pessoas</h1>
@@ -95,6 +96,8 @@
 </template>
 
 <script lang="ts">
+    import Header from '../components/Header.vue'
+
     import axios from 'axios'
     
     import { RouterLink } from 'vue-router';
@@ -171,6 +174,6 @@
                 }
             },
         },
-        components: { Trash2Icon, ArrowLeft, ArrowRight, Edit, RouterLink, Plus }
+        components: { Trash2Icon, ArrowLeft, ArrowRight, Edit, RouterLink, Plus, Header }
     }
 </script>
