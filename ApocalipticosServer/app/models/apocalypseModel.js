@@ -162,12 +162,9 @@ const updatePessoa = async (body) => {
 
         else {
             await connection.query(` DELETE FROM Guardioes g WHERE g.registrounico = ${registrounico}; `);
-
-            console.log(profissao);
-
+            
             let profissaoAux = (profissao) ? (`'${profissao}'`) : (`NULL`);
 
-            console.log(profissaoAux);
             let insert = `INSERT INTO Civil (RegistroUnico, Profissao)
                             VALUES (${registrounico}, ${profissaoAux}) `; 
             await connection.query(insert);
