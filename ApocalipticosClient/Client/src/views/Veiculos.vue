@@ -1,4 +1,5 @@
 <template>
+    <Header/>
     <div class="pt-20 flex flex-col gap-5 h-screen">
         <div class="flex flex-col justify-center items-center gap-3">
             <h1 class="text-3xl text-center font-medium text-white p-3">Veiculos</h1>
@@ -79,10 +80,12 @@
 </template>
 
 <script lang="ts">
+    import Header from '../components/Header.vue'
     import axios from 'axios'  
     import { ArrowRight } from 'lucide-vue-next';
     import { ArrowLeft } from 'lucide-vue-next';
     import { Trash2Icon } from 'lucide-vue-next';
+
 
     interface Veiculo {
         placa: string;
@@ -151,6 +154,6 @@
                 }
             }
         },
-        components: { Trash2Icon, ArrowLeft, ArrowRight }
+        components: { Trash2Icon, ArrowLeft, ArrowRight, Header }
     }
 </script>

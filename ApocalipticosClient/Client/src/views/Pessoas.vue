@@ -67,8 +67,8 @@
                             <td class="px-6 py-4">
                                 {{ pessoa.raaf }}
                             </td>
-                            <td class="px-6 py-4 flex gap-2">
-                                <button @click="deleteperson(pessoa.registrounico)">
+                            <td class="px-6 py-4 flex gap-2"> 
+                                <button v-if="pessoa.profissao != 'Líder' " @click="deleteperson(pessoa.registrounico)">
                                     <Trash2Icon/>
                                 </button>
                                 <RouterLink :to="{ name: 'PessoasUpdate', params: { id: pessoa.registrounico } }">
