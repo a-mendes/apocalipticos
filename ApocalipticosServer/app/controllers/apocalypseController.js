@@ -70,7 +70,8 @@ const deleteConsumiveis = async (req, res) => {
     try { 
         let {localizacao} = req.body;
         let {nome} = req.body;
-        await apocalypseModel.deleteConsumiveis(localizacao, nome);
+        let {dataaquisicao} = req.body;
+        await apocalypseModel.deleteConsumiveis(localizacao, nome, dataaquisicao);
         res.status(200).json("Consumível deletado com sucesso");
     } catch(error) {
         res.status(500).send(error);
