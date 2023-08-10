@@ -179,7 +179,7 @@ const getVeiculos = async (body) => {
     
     if(comunidade){
         query += (and) ? (`AND `) : (``);
-        query += `UPPER(p.comunidade) LIKE UPPER('${comunidade}') `;
+        query += `UPPER(v.comunidade) LIKE UPPER('%${comunidade}%') `;
         and = 1;
     }
 
