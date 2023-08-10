@@ -1,4 +1,5 @@
 <template>
+    <Header/>
     <div class="pt-20 h-screen">
         <div class="flex justify-center">
             <ConstructionIcon class="text-black/90 h-96 w-96"/>
@@ -9,11 +10,13 @@
 
 <script lang="ts">
     import { ConstructionIcon } from 'lucide-vue-next';
+    import Header from '../components/Header.vue';
 
     export default {
         name: 'Ferramentas',
         components: {
-            ConstructionIcon
-        }
+    ConstructionIcon,
+    Header
+    }
     }
 </script>

@@ -119,8 +119,7 @@ const updatePessoa = async (body) => {
     let query = `UPDATE pessoas
                 SET 
                     nome = '${nome}',
-                    datanascimento = '${datanascimento}',
-                    comunidade = '${comunidade}'
+                    datanascimento = '${datanascimento}'
                 WHERE registrounico = ${registrounico}; `; 
 
     if(raaf){

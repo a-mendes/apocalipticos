@@ -14,18 +14,18 @@
                 </div>
                 <div class="mb-6">
                     <label class="block mb-2 text-sm font-mediumtext-white">Comunidade</label>
-                    <input class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700/70 border-gray-600 placeholder-gray-400 text-white" :placeholder="p.comunidade" v-model="comunidade" required>
+                    <input class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700/70 border-gray-600 placeholder-gray-400 text-white" :placeholder="p.comunidade" v-model="comunidade" :disabled="true" required>
                 </div>
                 <div class="mb-6">
                     <label class="block mb-2 text-sm font-mediumtext-white">Tipo de Pessoa</label>
-                    <select v-model="selectType" @change="$event.handleTypeChange" class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700/70 border-gray-600 placeholder-gray-400 text-white" required>
+                    <select v-model="selectType" @change="$event.handleTypeChange" class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700/70 border-gray-600 placeholder-gray-400 text-white" :disabled="p.profissao == 'Líder'" required>
                         <option value="civil">Civil</option>
                         <option value="guardião">Guardião</option>
                     </select>
                 </div>
                 <div class="mb-6">
                     <label class="block mb-2 text-sm font-mediumtext-white">Profissão</label>
-                    <input class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700/70 border-gray-600 placeholder-gray-400 text-white" :placeholder="p.profissao" :disabled="selectType == 'guardião'" v-model="profissao">
+                    <input class="border text-sm rounded-lg block w-full p-2.5 bg-gray-700/70 border-gray-600 placeholder-gray-400 text-white" :placeholder="p.profissao" :disabled="selectType == 'guardião' || p.profissao == 'Líder'" v-model="profissao" >
                 </div>
                 <div class="mb-6">
                     <label class="block mb-2 text-sm font-mediumtext-white">RAAF</label>
