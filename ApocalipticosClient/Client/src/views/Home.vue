@@ -1,5 +1,6 @@
 <!--Html -->
 <template>
+  <Header/>
   <div class="h-screen">
     <div class="mx-auto grid grid-cols-1 gap-6 p-6 auto-cols- sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 pt-20">
       <RouterLink :to="routes[index]" v-for="(name, index) in names" :key="index">
@@ -23,6 +24,8 @@
 
 <!--Importações -->
 <script setup>
+  import Header from '../components/Header.vue'
+
   import { Users } from 'lucide-vue-next';
   import { Car } from 'lucide-vue-next';
   import { Building2 } from 'lucide-vue-next';
