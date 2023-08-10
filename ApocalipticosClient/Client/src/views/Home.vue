@@ -33,7 +33,7 @@
   import { ShirtIcon } from 'lucide-vue-next';
   import { Wrench } from 'lucide-vue-next';
 
-  const names = ['Pessoas', 'Veiculos', 'Construções', 'Consumíveis', 'Roupas', 'Ferramentas']
-  const icons = [Users, Car, Building2, Drumstick, ShirtIcon, Wrench]
-  const routes = ['/pessoas', '/veiculos', '/construcoes', '/consumiveis', '/roupas', '/ferramentas']
+  const names = ['Pessoas', 'Veiculos', 'Consumíveis','Construções', 'Roupas', 'Ferramentas']
+  const icons = [Users, Car, Drumstick, Building2, ShirtIcon, Wrench]
+  const routes = ['/pessoas', '/veiculos', '/consumiveis', '/construcoes', '/roupas', '/ferramentas']
 </script>
